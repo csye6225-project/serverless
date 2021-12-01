@@ -1,0 +1,9 @@
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 300
+      MemorySize: 128
+      Handler: LambdaFunctionHandler
+      CodeUri: /Users/pengchengxu/Desktop/csye6225/serverless
+      Runtime: java8.al2
