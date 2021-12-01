@@ -39,4 +39,4 @@ jobs:
 
       - name: deploy
         run: |
-          aws lambda update-function-code --function-name=send_email --zip-file=fileb://target/serverless-1.0-SNAPSHOT.jar
+          aws lambda update-function-code --function-name=send_email --zip-file=fileb://target/untitled-1.0-SNAPSHOT.jar
