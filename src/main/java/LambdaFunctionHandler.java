@@ -22,29 +22,37 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class LambdaFunctionHandler implements RequestHandler<SNSEvent, Object> {
-    private final String access_key = "AKIA5XV4MDZLBZFRGURF";
-    private final String secret_key = "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";
     private final String from = "no-reply@prod.pengchengxu.me";
     private final String subject = "Verification Email";
 
-    private final String region = "us-east-1";
+    private String region = "us-east-1";
 
 
     @Override
     public Object handleRequest(SNSEvent input, Context context) {
-        AWSCredentials awsCredentials = new BasicAWSCredentials(access_key,
-                secret_key);
+
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime());
+        context.getLogger().log("Invocation started: " + timeStamp);
+
+        AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAVMPSPWKHQKFZLVPL",
+                "FpCY9r1lswGZpy/8qQDE9PWznk6d3haDx0Bw2dCY");
 
         String record = input.getRecords().get(0).getSNS().getMessage();
         String[] list = record.split(";");
+        context.getLogger().log("Email: " + list[0] + ", Token: " + list[1]);
+
+        context.getLogger().log("before amazon");
 
         AmazonDynamoDB amazonDynamoDB = AmazonDynamoDBClientBuilder.standard()
-                .withRegion(region)
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .build();
+                    .withRegion(region)
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+                    .build();
+
+        context.getLogger().log("AmazonDynamo");
 
         DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
         Table table = dynamoDB.getTable("verification");
+        System.out.println(table.getItem("email", "patrick0929@outlook.com"));
 
         GetItemSpec spec = new GetItemSpec().withPrimaryKey("email", list[0]);
 
@@ -64,11 +72,6 @@ public class LambdaFunctionHandler implements RequestHandler<SNSEvent, Object> {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime());
-        context.getLogger().log("Invocation started: " + timeStamp);
-        context.getLogger().log("Email: " + list[0] + ", Token: " + list[1]);
 
         String to = list[0];
 
