@@ -76,12 +76,12 @@ public class LambdaFunctionHandler implements RequestHandler<SNSEvent, Object> {
         String to = list[0];
 
         String htmlBody = "<p>Dear Customer: <br>Thank you for sign up an account on our website! " +
-                "Here is your verification link: <a href='https://prod.pengchengxu.me/v1/verifyUserEmail?email=" + list[0] +
-                "&token=" + list[1] + "'>https://prod.pengchengxu.me/v1/verifyUserEmail?email=" + list[0] + "&token=" + list[1] +
+                "Here is your verification link: <a href='http://prod.pengchengxu.me/v1/verifyUserEmail?email=" + list[0] +
+                "&token=" + list[1] + "'>http://prod.pengchengxu.me/v1/verifyUserEmail?email=" + list[0] + "&token=" + list[1] +
                 "</a><br>Please Verify your Email Address in 5 minutes! <br> <br>Best!<p>";
 
         String textBody = "Dear Customer: \r\nThank you for sign up an account on our website! " +
-                "Here is your verification link: https://prod.pengchengxu.me/v1/verifyUserEmail?email=" + list[0] + "&token=" + list[1] +
+                "Here is your verification link: http://prod.pengchengxu.me/v1/verifyUserEmail?email=" + list[0] + "&token=" + list[1] +
                 "\r\nPlease Verify your Email Address in 5 minutes! \r\n \r\nBest!";
 
         UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("email", list[0])
